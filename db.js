@@ -1,22 +1,9 @@
 const mongoose = require('mongoose');
 
 async function connectDB() {
-  let uri = process.env.MONGO_URI;
+  let uri = process.env.MONGO_URI ||
+    'mongodb+srv://Pavanmsskpr:pavanmsskpr@guardril.49la4la.mongodb.net/exam-guardrail?retryWrites=true&w=majority&appName=guardril';
 
-  if (!uri) {
-    // Local development: use in-memory MongoDB (requires devDependency)
-    try {
-      const { MongoMemoryServer } = require('mongodb-memory-server');
-      console.log('⏳ Starting embedded MongoDB (no local install needed)…');
-      const mongod = await MongoMemoryServer.create();
-      uri = mongod.getUri();
-      console.log('✅ Embedded MongoDB started');
-    } catch {
-      console.error('❌ No MONGO_URI set and mongodb-memory-server not installed.');
-      console.error('   Set the MONGO_URI environment variable to your MongoDB Atlas connection string.');
-      process.exit(1);
-    }
-  }
 
   await mongoose.connect(uri);
   console.log('✅ MongoDB connected');
