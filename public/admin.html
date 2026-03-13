@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Auditor Dashboard — ExamGuard Admin</title>
+  <meta name="description" content="Real-time monitoring dashboard for exam integrity violations and trust scores." />
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+
+  <!-- ── Header ────────────────────────────────────────────── -->
+  <header class="admin-header">
+    <div class="admin-header-inner">
+      <div class="admin-logo">
+        <div class="admin-logo-icon">🔍</div>
+        <span>Auditor Dashboard</span>
+      </div>
+      <div class="header-stats">
+        <div class="stat-chip">
+          <span class="dot dot-online"></span>
+          Online: <strong id="onlineCount">0</strong>
+        </div>
+        <div class="stat-chip">
+          <span class="dot dot-warning"></span>
+          Violations: <strong id="totalViolations">0</strong>
+        </div>
+        <div class="stat-chip">
+          <span class="dot dot-danger"></span>
+          Flagged: <strong id="flaggedCount">0</strong>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── Dashboard Grid ────────────────────────────────────── -->
+  <div class="dashboard">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-title">Students</div>
+      <ul class="student-list" id="studentList">
+        <li class="no-students" id="noStudentsMsg">
+          Waiting for students to connect…
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Main Panel -->
+    <section class="main-panel" id="mainPanel">
+      <div class="select-prompt" id="selectPrompt">
+        <div class="promo-icon">📋</div>
+        <h2>Select a student</h2>
+        <p>Choose a student from the sidebar to view their real-time violation timeline and trust score.</p>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

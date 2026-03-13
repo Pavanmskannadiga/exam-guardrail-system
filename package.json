@@ -1,0 +1,21 @@
+{
+  "name": "exam-guardrail-system",
+  "version": "1.0.0",
+  "description": "Integrity-First Middleware for online exam monitoring",
+  "main": "server.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^8.23.0",
+    "ws": "^8.16.0"
+  },
+  "devDependencies": {
+    "mongodb-memory-server": "^10.4.3"
+  }
+}

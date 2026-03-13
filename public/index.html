@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exam Guardrail — Secure Assessment</title>
+  <meta name="description" content="Integrity-First online exam environment with real-time browser monitoring." />
+  <link rel="stylesheet" href="exam.css" />
+</head>
+<body>
+
+  <!-- ── Login Screen ──────────────────────────────────────── -->
+  <div class="login-overlay" id="loginOverlay">
+    <div class="login-particles" id="loginParticles"></div>
+    <div class="login-card">
+      <div class="login-logo">
+        <div class="login-logo-icon">🛡️</div>
+        <h1 class="login-title">ExamGuard</h1>
+        <p class="login-subtitle">Integrity-First Assessment Platform</p>
+      </div>
+      <div class="login-divider"></div>
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <label class="login-label" for="loginStudentName">Student Name</label>
+        <div class="login-input-wrapper">
+          <span class="login-input-icon">👤</span>
+          <input
+            type="text"
+            id="loginStudentName"
+            class="login-input"
+            placeholder="Enter your full name"
+            autocomplete="off"
+            required
+            minlength="2"
+            maxlength="40"
+          />
+        </div>
+        <label class="login-label" for="loginExamCode" style="margin-top: 0.5rem;">Exam Code</label>
+        <div class="login-input-wrapper">
+          <span class="login-input-icon">🔑</span>
+          <input
+            type="text"
+            id="loginExamCode"
+            class="login-input"
+            placeholder="Enter exam code (optional)"
+            autocomplete="off"
+            maxlength="20"
+          />
+        </div>
+        <button type="submit" class="login-btn" id="loginBtn">
+          <span class="login-btn-text">Start Exam</span>
+          <span class="login-btn-arrow">→</span>
+        </button>
+      </form>
+      <div class="login-footer">
+        <span>🔒</span> Your session will be monitored for integrity
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Header ────────────────────────────────────────────── -->
+  <header class="header" id="examHeader" style="display:none;">
+    <div class="header-inner">
+      <div class="logo">
+        <div class="logo-icon">🛡️</div>
+        <span>ExamGuard</span>
+      </div>
+      <div class="header-meta">
+        <div class="student-badge">
+          <div class="avatar" id="avatarInitial">?</div>
+          <span id="studentName">Loading…</span>
+        </div>
+        <div class="timer" id="examTimer">30:00</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── Status Bar ────────────────────────────────────────── -->
+  <div class="status-bar" id="statusBar" style="display:none;">
+    <div class="status-dot"></div>
+    <span class="status-text" id="statusText">Monitoring active — all clear</span>
+    <span class="violation-count" id="violationBadge">0 violations</span>
+  </div>
+
+  <!-- ── Exam Questions ────────────────────────────────────── -->
+  <main class="main" id="examMain" style="display:none;">
+
+    <div class="question-card" id="q1">
+      <div class="question-number">1</div>
+      <div class="question-text">Which data structure uses FIFO (First In, First Out) ordering?</div>
+      <div class="options">
+        <label class="option" onclick="selectOption(this)"><input type="radio" name="q1" value="a"/><span class="radio-dot"></span>Stack</label>
+        <label class="option" onclick="selectOption(this)"><input type="radio" name="q1" value="b"/><span class="radio-dot"></span>Queue</label>
+        <label class="option" onclick="selectOption(this)"><input type="radio" name="q1" value="c"/><span class="radio-dot"></span>Binary Tree</label>
+        <label class="option" onclick="selectOption(this)"><input type="radio" name="q1" value="d"/><span class="radio-dot"></span>Hash Map</label>
+      </div>
+    </div>
+
+    <div class="question-card" id="q2">
+      <div class="question-number">2</div>
+      <div class="question-text">What is the time complexity of binary search on a sorted array?</div>
+      <div class="options">
+        <label class="option" onclick="selectOption(this)"><input type="radio" name="q2" value="a"/><span class="radio-dot"></span>O(n)</label>
+        <label class="option" onclick="selectOption(this)"><input type="radio" name="q2" value="b"/><span class="radio-dot"></span>O(n log n)</label>
+        <label class="option" onclick="selectOption(this)"><input type="radio" name="q2" value="c"/><span class="radio-dot"></span>O(log n)</label>
+        <label class="option" onclick="selectOption(this)"><input type="radio" name="q2" value="d"/><span class="radio-dot"></span>O(1)</label>
+      </div>
+    </div>
+
+    <div class="question-card" id="q3">
+      <div class="question-number">3</div>
+      <div class="question-text">Which protocol is used for secure communication over the internet?</div>
+      <div class="options">
+        <label class="option" onclick="selectOption(this)"><input type="radio" name="q3" value="a"/><span class="radio-dot"></span>HTTP</label>
+        <label class="option" onclick="selectOption(this)"><input type="radio" name="q3" value="b"/><span class="radio-dot"></span>FTP</label>
+        <label class="option" onclick="selectOption(this)"><input type="radio" name="q3" value="c"/><span class="radio-dot"></span>HTTPS</label>
+        <label class="option" onclick="selectOption(this)"><input type="radio" name="q3" value="d"/><span class="radio-dot"></span>SMTP</label>
+      </div>
+    </div>
+
+    <div class="question-card" id="q4">
+      <div class="question-number">4</div>
+      <div class="question-text">In object-oriented programming, what does "inheritance" allow?</div>
+      <div class="options">
+        <label class="option" onclick="selectOption(this)"><input type="radio" name="q4" value="a"/><span class="radio-dot"></span>Hiding internal implementation details</label>
+        <label class="option" onclick="selectOption(this)"><input type="radio" name="q4" value="b"/><span class="radio-dot"></span>A class to acquire properties of another class</label>
+        <label class="option" onclick="selectOption(this)"><input type="radio" name="q4" value="c"/><span class="radio-dot"></span>Multiple functions with the same name</label>
+        <label class="option" onclick="selectOption(this)"><input type="radio" name="q4" value="d"/><span class="radio-dot"></span>Creating objects without classes</label>
+      </div>
+    </div>
+
+    <div class="question-card" id="q5">
+      <div class="question-number">5</div>
+      <div class="question-text">Which SQL command is used to retrieve data from a database?</div>
+      <div class="options">
+        <label class="option" onclick="selectOption(this)"><input type="radio" name="q5" value="a"/><span class="radio-dot"></span>INSERT</label>
+        <label class="option" onclick="selectOption(this)"><input type="radio" name="q5" value="b"/><span class="radio-dot"></span>UPDATE</label>
+        <label class="option" onclick="selectOption(this)"><input type="radio" name="q5" value="c"/><span class="radio-dot"></span>SELECT</label>
+        <label class="option" onclick="selectOption(this)"><input type="radio" name="q5" value="d"/><span class="radio-dot"></span>DELETE</label>
+      </div>
+    </div>
+
+    <div class="submit-area">
+      <button class="btn-submit" id="btnSubmit" onclick="submitExam()">Submit Exam</button>
+    </div>
+  </main>
+
+  <!-- ── Violation Toasts ──────────────────────────────────── -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- ── Idle Overlay ──────────────────────────────────────── -->
+  <div class="idle-overlay" id="idleOverlay">
+    <div class="idle-icon">😴</div>
+    <div class="idle-text">Are you still there?</div>
+    <div class="idle-sub">Idle detected — move your mouse or press a key to continue.</div>
+  </div>
+
+  <!-- ── Submission Overlay ────────────────────────────────── -->
+  <div class="idle-overlay" id="submitOverlay">
+    <div class="idle-icon">✅</div>
+    <div class="idle-text" style="color: #10b981;">Exam Submitted Successfully</div>
+    <div class="idle-sub">Your answers have been recorded. You may close this window.</div>
+    <div class="idle-sub" style="margin-top: 0.5rem; font-size: 0.8rem; color: #64748b;" id="submitStats"></div>
+  </div>
+
+  <script src="sentinel.js"></script>
+  <script>
+    /* ── Login Handler ───────────────────────────────────────── */
+    function handleLogin(e) {
+      e.preventDefault();
+      const nameInput = document.getElementById('loginStudentName');
+      const codeInput = document.getElementById('loginExamCode');
+      const name = nameInput.value.trim();
+      const examCode = codeInput.value.trim();
+      if (!name) return;
+
+      // Animate login card out
+      const loginOverlay = document.getElementById('loginOverlay');
+      loginOverlay.classList.add('fade-out');
+
+      setTimeout(() => {
+        loginOverlay.style.display = 'none';
+
+        // Show exam UI
+        document.getElementById('examHeader').style.display = '';
+        document.getElementById('statusBar').style.display = '';
+        document.getElementById('examMain').style.display = '';
+
+        // Start sentinel with the student name and exam code
+        if (window.startSentinel) window.startSentinel(name, examCode);
+      }, 500);
+    }
+
+    /* ── Option selection helper ─────────────────────────────── */
+    function selectOption(el) {
+      const card = el.closest('.question-card');
+      card.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+      el.classList.add('selected');
+      el.querySelector('input').checked = true;
+    }
+
+    let examAlreadySubmitted = false;
+
+    function submitExam() {
+      if (examAlreadySubmitted) return;
+      examAlreadySubmitted = true;
+
+      // Stop all monitoring
+      if (window.stopSentinel) window.stopSentinel();
+
+      // Disable submit button
+      const btn = document.getElementById('btnSubmit');
+      btn.textContent = '✓ Submitted';
+      btn.disabled = true;
+      btn.style.opacity = '0.5';
+      btn.style.pointerEvents = 'none';
+
+      // Disable all options
+      document.querySelectorAll('.option').forEach(o => {
+        o.style.pointerEvents = 'none';
+        o.style.opacity = '0.6';
+      });
+
+      // Count answered questions
+      const total = 5;
+      const answered = document.querySelectorAll('.option.selected').length;
+
+      // Show submission overlay
+      const overlay = document.getElementById('submitOverlay');
+      const stats = document.getElementById('submitStats');
+      stats.textContent = `${answered} of ${total} questions answered`;
+      overlay.classList.add('visible');
+    }
+
+    // Expose globally so sentinel.js timer auto-submit can call it
+    window.submitExam = submitExam;
+
+    // Auto-focus name input
+    document.getElementById('loginStudentName').focus();
+  </script>
+</body>
+</html>
