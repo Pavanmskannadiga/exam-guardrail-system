@@ -1,11 +1,11 @@
 services:
   - type: web
-    name: exam-guardrail
+    name: exam-guardrail-system-3
     runtime: node
     buildCommand: npm install
     startCommand: node server.js
     envVars:
       - key: MONGO_URI
-        value: "mongodb+srv://Pavanmsskpr:pavanmsskpr@guardril.49la4la.mongodb.net/exam-guardrail?retryWrites=true&w=majority&appName=guardril"
+        value: "mongodb+srv://pavanmsskpr_db_user:hackfest123@cluster0.fiujwly.mongodb.net/exam-guardrail?retryWrites=true&w=majority&appName=Cluster0"
       - key: NODE_ENV
         value: production
