@@ -156,19 +156,36 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+// ── Health Check ──────────────────────────────────────────────
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok', time: new Date().toISOString() });
+});
+
 // ── Start ──────────────────────────────────────────────────────
 const PORT = process.env.PORT || 3000;
 
 async function boot() {
-  await connectDB();
-  server.listen(PORT, '0.0.0.0', () => {
-    console.log(`🛡️  Exam Guardrail System running on http://localhost:${PORT}`);
-    console.log(`   Exam page:  http://localhost:${PORT}/`);
-    console.log(`   Dashboard:  http://localhost:${PORT}/admin`);
+  // Start the HTTP server FIRST so Render sees the port open
+  await new Promise((resolve) => {
+    server.listen(PORT, '0.0.0.0', () => {
+      console.log(`🛡️  Exam Guardrail System running on port ${PORT}`);
+      console.log(`   Exam page:  /`);
+      console.log(`   Dashboard:  /admin`);
+      resolve();
+    });
   });
+
+  // Then connect to MongoDB — server stays up even if this fails
+  try {
+    await connectDB();
+    console.log('✅ MongoDB connected — all features active');
+  } catch (err) {
+    console.error('⚠️  MongoDB connection failed:', err.message);
+    console.error('   Server is still running — static pages will work but DB features are disabled.');
+  }
 }
 
 boot().catch(err => {
-  console.error('❌ Failed to start:', err.message);
+  console.error('❌ Critical startup error:', err.message);
   process.exit(1);
 });
