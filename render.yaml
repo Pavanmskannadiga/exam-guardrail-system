@@ -6,6 +6,6 @@ services:
     startCommand: node server.js
     envVars:
       - key: MONGO_URI
-        sync: false  # You'll set this manually in the Render dashboard
+        value: mongodb+srv://Pavanmsskpr:pavanmsskpr@guardril.49la4la.mongodb.net/exam-guardrail?retryWrites=true&w=majority&appName=guardril
       - key: NODE_ENV
         value: production
